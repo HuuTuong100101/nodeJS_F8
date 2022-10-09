@@ -4,6 +4,12 @@ const path = require('path');
 const handlebars= require('express-handlebars');
 const app = express();
 const port = 3000;
+const route = require('./routes/index');
+
+app.use(express.urlencoded({
+    extended: true
+}));
+app.use(express.json());
 
 app.use(express.static(path.join(__dirname,'public')));
 //HTTP Logger
@@ -18,8 +24,6 @@ app.engine('hbs', hbs.engine)
 app.set('view engine','hbs');
 app.set('views',path.join(__dirname,'resource/views'))
 
-app.get('/trangchu', (req,res) => res.render('home'));
+route(app);
 
-app.get('/news', (req,res) => res.render('news'));
-
-app.listen(port, () => console.log(`Server running at http://localhost:${port}`))
+app.listen(port, () => console.log(`Server running at http://localhost:${port}`));
